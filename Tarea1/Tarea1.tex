@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{geometry}
+\usepackage{color}
+\usepackage[spanish]{babel}
+\geometry{letterpaper, margin=1in}
+\usepackage{listings}
+\lstset{
+  language=Python,
+  basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green},
+  stringstyle=\color{red},
+  breaklines=true,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny,
+  frame=lines
+}
+\usepackage{setspace} \doublespacing
+
+\title{Tarea 1}
+\author{Fernando Cruz Pineda, Edson Rafael Flores}
+\date{\today}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+\item Muestra una máquina de Turing total con alfabetos de entrada y cinta $\Sigma = \{1,\#\}$ y  $\Gamma=\{1,\#,x,\sqcup \}$, respectivamente, que reconozca el lenguaje:
+
+  $A = \{\alpha \# \beta \gamma | \alpha,\beta,\gamma \in \{1\}^* \land |\alpha| + |\beta| = |\gamma| \}$
+
+  Descrito en palabras, el lenguaje A tiene todas las ternas de enteros en notación unaria tales
+que la suma de los dos primeros números es igual al tercer número.
+Primero da una descripción de alto nivel de tu máquina (como referencia, toma las descripciones de alto nivel de los ejemplos 3.7 a 3.12 en el libro de Michel Sipser), después da la descripción formal, y finalmente da una explicación de porque la máquina es total y reconoc el lenguaje A.
+
+\item Sea $\Sigma$ un alfabeto finito. Demuestra que para todo lenguaje reconocible $A \subseteq \Sigma ^*$ existe una máquina de Turing M tal que L(M) = A y siempre que M rechaza una cadena de entrada $w \in \Sigma ^*$, lo hace entrando en un loop infinito.
+
+  Dem.
+
+  Sea $A \subseteq \Sigma^*$ un lenguaje reconocible cualquiera, esto quiere decir que existe una MT $N = (Q, \Sigma, \Gamma, \delta, q_0, q_{acepta}, q_{rechaza})$, tal que $L(N) = A$.
+
+  Proponemos la siguiente máquina de Turing $M = (Q', \Sigma, \Gamma, \delta_M, q_0, q_{acepta})$ tal que
+
+  $Q' = Q - \{q_{rechaza}\} \cup \{p\}$
+
+  
+  $\delta(q,x)_M = $
+  \begin{cases}
+    (p,a,L) \text{ si } \delta(q,x) = (q_{rechaza},a,L) \\
+    (p,a,R) \text{ si } \delta(q,x) = (q_{rechaza},a,R) \\
+    (p,x,R) \text{ si } q = p \\
+    \delta(q,x)  \text{ en otro caso}
+  \end{cases} para cualquier $x,a \in \Sigma$ y $q \in Q'$
+
+  P.d $L(M)=A$
+
+  Procedemos por doble contención
+  
+  P.d $A \subseteq L(M)$
+
+  Sea $w \in A$ una cadena cualquiera, como A es reconocible, significa que w es aceptada por N. Esto implica que N llega al estado $q_{acepta}$ tras procesar esta cadena. Por la construcción de M, las transiciones de M que conducen a la aceptación son idénticas a las de N. Por lo tanto, si N acepta w, M también lo hará, así $w \in L(M)$
+
+  P.d $L(M) \subseteq A$
+
+  Sea $w \in L(M)$, esto quiere decir que M acepta a w. Por la construcción de M, M acepta si y sólo si N acepta, por lo tanto $w \in L(N) $ pero $L(N)=A$, así $w \in A$.
+
+  Por lo que podemos concluir que $L(M)=A$.
+
+  P.d Cuando M rechaza lo hace entrando a un loop infinito
+
+  Sea w una cadena que es rechazada por N, esto sucede unicamente si la computación de w en N termina en el estado $q_{rechaza}$, ahora, según nuestra construcción de M, cualquier transición en N que hubiera llevado a $q_{rechaza}$ lleva al estado p en M. Una vez en el estado p, según la definición de $\delta_M$, no importa lo que se lea M se va a quedar en p y se va a mover a la derecha sin parar. Dado que p no es un estado de aceptación ni de rechazo, la máquina nunca se detiene. Es decir, se queda en un loop infinito.
+
+  Así podemos concluir que para cualquier lenguaje A reconocible existe una MT M tal que $L(M)=A$ y M rechaza entrando a un loop infinito.
+  
+\item Sea $\Sigma$ un alfabeto finito. Demuestra que si $A \subseteq \Sigma ^*$ es un lenguaje regular, entonces A es decidible.
+
+  
+
+  
+  \end{enumerate}
+\end{document}
