@@ -125,6 +125,43 @@ Así, $M$ siempre se detiene y acepta exactamente las palabras de la forma $\alp
   
 \item Sea $\Sigma$ un alfabeto finito. Demuestra que si $A \subseteq \Sigma ^*$ es un lenguaje regular, entonces A es decidible.
 
+  Dem.
+
+  Por hipótesis A es un lenguaje regular, esto quiere decir que existe un AFD $D = (Q,\Sigma,\delta_D,q_0,F)$ tal que $L(D) = A$, ahora, proponemos una MT $M=(Q',\Sigma,\Gamma,\delta_M, q_0, q_{acepta},q_{rechaza})$ tq
+
+  $Q'=Q \cup \{q_{rechaza}, q_{acepta}\}$
+  
+  $\Gamma = \Sigma \cup \{\sqcup \}$
+
+  $\delta(q,x)_M = $
+  \begin{cases}
+    (q_{acepta},\sqcup,R) \text{ si } x= \sqcup y q \in F\\
+    (q_{rechaza},\sqcup,R) \text{ si } x= \sqcup y q \notin F\\
+    (\delta_D(q,x),\sqcup, R\)  \text{ en otro caso}
+  \end{cases} para cualquier $x \in \Sigma$ y $q \in Q'$
+
+  P.d M es una MT total que decide a A.
+
+  Para demostrarlo primero vamos a demostrar el siguiente lema
+
+  Lema : Para toda cadena w tras $|w|$ pasos la maquina M se encuentra en el estado $\widehat{\delta_D}(q_0,w)$ y el cabezal está leyendo la casilla inmediata a la derecha.
+
+  Procedemos por inducción sobre $|w|$.
+
+  Caso base: $|w|$ =0, es decir $w=\epsilon$, además tenemos que en 0 pasos seguimos en nuestro estado inicial $q_0$, y usando el caso base de la definición recursiva de $\widehat{\delta_D}(q_0,\epsilon)=q_0$, por lo tanto, se cumple para el caso base.
+
+  H.I El lema se cumple para toda cadena v tal que $|v|$ = n, $n \geq 0$
+4
+  P.d El lema se cumple para toda cadena w tal que $|w|$ = n+1
+
+  Sea w una cadena cualquiera, podemos verla como la cadena w=va con $v \in \Sigma^*, a \in \Sigma$, tenemos que $|v| = n$ por lo que por H.I tras n pasos estamos en el estado $\widehat{\delta_D}(q_0,v)$ y el cabezal está leyendo a, por lo que en el paso n+1 al aplicar $\delta_M$ tenemos que $\delta_M(\widehat{\delta_D}(q_0,v),a)= (\delta(\widehat{\delta_D}(q_0,v),a),\sqcup,R)$, pero sabemos que por la definición recursiva de $\widehat{\delta_D}$, esto es igual a $\delta_M(\widehat{\delta_D}(q_0,v),a)= ((\widehat{\delta_D}(q_0,w),\sqcup,R)$, es decir, tras n+1 estamos en el estado $\widehat{\delta_D}(q_0,w)$ leyendo la casilla inmediata a la derecha.
+
+  Así queda demostrado el lema.
+
+
+  Usando el lema anterior, tenemos que para toda cadena w tras $|w|$ pasos el cabezal va a estar leyendo la casilla $\sqcup$ inmediatamente a la derecha del último símbolo de w y estaremos en el estado $\widehat{\delta_D}(q_0,w)$. Ahora en un paso más por definición de nuestra $\delta_M$ entraría en alguno de los dos primeros casos , si $\widehat{\delta_D}(q_0,w) \in F$, entonces M pasa a $q_{acepta}$ y se detiene y si $\widehat{\delta_D}(q_0,w) \notin F$ M pasa a $q_{rechaza}$ deteneniendose rechazando a w. 
+
+  Por lo tanto, tenemos que $w \in A \Leftrightarrow M acepta $ y $w \notin A \Leftrightarrow M rechaza $, en otras palabras M decide A.
   
 
   
