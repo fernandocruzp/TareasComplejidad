@@ -35,6 +35,170 @@
 que la suma de los dos primeros números es igual al tercer número.
 Primero da una descripción de alto nivel de tu máquina (como referencia, toma las descripciones de alto nivel de los ejemplos 3.7 a 3.12 en el libro de Michel Sipser), después da la descripción formal, y finalmente da una explicación de porque la máquina es total y reconoc el lenguaje A.
 
+\begin{description}
+\item[Máquina $M$: Con la entrada $w= \alpha \# \beta \# \gamma$] 
+\\
+   \begin{enumerate}
+    \item Mientras queden símbolos en $\alpha$:  
+      \begin{enumerate}
+        \item Marca un $1$ de $\alpha$.  
+        \item Busca y marca un $1$ de $\gamma$.  
+        \item Si no hay $1$ disponible en $\gamma$, \textbf{rechaza}.  
+      \end{enumerate}
+    \item Mientras queden símbolos en $\beta$:  
+      \begin{enumerate}
+        \item Marca un $1$ de $\beta$.  
+        \item Busca y marca un $1$ de $\gamma$.  
+        \item Si no hay $1$ disponible en $\gamma$, \textbf{rechaza}.  
+      \end{enumerate}
+    \item Si, al terminar de marcar todos los $1$ de $\beta$, quedan aún $1$ sin marcar en $\gamma$, \textbf{rechaza}.  
+    \item En otro caso, \textbf{acepta}.  
+  \end{enumerate}
+\end{description}
+
+Descripción formal.
+\[
+M=(Q,\Sigma,\Gamma,\delta,q_0,q_{\text{acepta}},q_{\text{rechaza}})
+\]
+con
+\[
+\Sigma=\{1,\#\},\qquad \Gamma=\{1,\# ,x,\sqcup\},
+\]
+\[
+Q=\{q_0,q_1,q_2,q_3,q_4,q_5,q_6,q_7,q_8,q_9,q_{10},q_{11},q_{revision},q_{acepta},q_{rechaza}\}.
+\]
+
+
+La función de transición \(\delta:Q\times\Gamma\to Q\times\Gamma\times\{L,R\}\) viene dada por:
+
+\[
+\begin{array}{ll}
+\delta(q_0,1)       = (q_1,\,x,\,R), &
+\delta(q_0,x)       = (q_0,\,x,\,R),\\[4pt]
+\delta(q_0,\#)      = (q_6,\,\#,\,R), &
+\delta(q_0,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_1,1)       = (q_1,\,1,\,R), &
+\delta(q_1,x)       = (q_1,\,x,\,R),\\[4pt]
+\delta(q_1,\#)      = (q_2,\,\#,\,R), &
+\delta(q_1,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_2,1)       = (q_2,\,1,\,R), &
+\delta(q_2,x)       = (q_2,\,x,\,R),\\[4pt]
+\delta(q_2,\#)      = (q_3,\,\#,\,R), &
+\delta(q_2,\sqcup)  = (q_{rechaza},\,\sqcup,\,L),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_3,1)       = (q_4,\,x,\,L), &
+\delta(q_3,x)       = (q_3,\,x,\,R),\\[4pt]
+\delta(q_3,\#)      = (q_{rechaza},\,\#,\,R), &
+\delta(q_3,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_4,1)       = (q_4,\,1,\,L), &
+\delta(q_4,x)       = (q_4,\,x,\,L),\\[4pt]
+\delta(q_4,\#)      = (q_5,\,\#,\,L), &
+\delta(q_4,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_5,1)       = (q_5,\,1,\,L), &
+\delta(q_5,x)       = (q_6,\,x,\,R),\\[4pt]
+\delta(q_5,\#)      = (q_5,\,\#,\,L), &
+\delta(q_5,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_6,1)       = (q_0,\,x,\,R), &
+\delta(q_6,x)       = (q_6,\,x,\,R),\\[4pt]
+\delta(q_6,\#)      = (q_7,\,\#,\,R), &
+\delta(q_6,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_7,1)       = (q_8,\,1,\,R), &
+\delta(q_7,x)       = (q_7,\,x,\,R),\\[4pt]
+\delta(q_7,\#)      = (q_{revision},\,\#,\,R), &
+\delta(q_7,\sqcup)  = (q_8,\,\sqcup,\,L),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_8,1)       = (q_8,\,1,\,R), &
+\delta(q_8,x)       = (q_8,\,x,\,R),\\[4pt]
+\delta(q_8,\#)      = (q_9,\,\#,\,R), &
+\delta(q_8,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_9,1)       = (q_{10},\,x,\,L), &
+\delta(q_9,x)       = (q_9,\,x,\,R),\\[4pt]
+\delta(q_9,\#)      = (q_{rechaza},\,\#,\,L), &
+\delta(q_9,\sqcup)  = (q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_{10},x)    = (q_{10},\,x,\,L), &
+\delta(q_{10},1)    = (q_{10},\,1,\,L),\\[4pt]
+\delta(q_{10},\#)   = (q_{11},\,\#,\,L), &
+\delta(q_{10},\sqcup)=(q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_{11},x)    = (q_{7},\,x,\,R), &
+\delta(q_{11},1)    = (q_{11},\,1,\,L),\\[4pt]
+\delta(q_{11},\#)   = (q_{rechaza},\,\#,\,L), &
+\delta(q_{10},\sqcup)=(q_{rechaza},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_{revision},x)    = (q_{revision},\,x,\,R), &
+\delta(q_{revision},\#)   = (q_{revision},\,\#,\,R),\\[4pt]
+\delta(q_{revision},1)    = (q_{rechaza},\,1,\,R), &
+\delta(q_{revision},\sqcup)= (q_{acepta},\,\sqcup,\,R),
+\end{array}
+\]
+
+\[
+\begin{array}{ll}
+\delta(q_{acepta},a)   = (q_{acepta},\,a,\,R), &
+\delta(q_{rechaza},a)  = (q_{rechaza},\,a,\,R),
+\end{array}
+\qquad\text{para todo }a\in\Gamma.
+\]
+
+La máquina es total porque para cada estado y cada símbolo del alfabeto de cinta está definida una transición, ya sea avanzando en el proceso de emparejamiento, regresando para reiniciar la búsqueda o yendo a un estado de aceptación o rechazo, de modo que nunca queda sin movimiento posible. Reconoce el lenguaje \(A\) porque marca sistemáticamente un `1` de \(\alpha\) y un `1` correspondiente de \(\gamma\), luego un `1` de \(\beta\) y un `1` de \(\gamma\); si en algún momento no encuentra un `1` para emparejar, rechaza. Al finalizar, acepta únicamente si todos los `1` de \(\gamma\) han sido emparejados, lo que garantiza que \(|\alpha| + |\beta| = |\gamma|\).
+
+
 \item Sea $\Sigma$ un alfabeto finito. Demuestra que para todo lenguaje reconocible $A \subseteq \Sigma ^*$ existe una máquina de Turing M tal que L(M) = A y siempre que M rechaza una cadena de entrada $w \in \Sigma ^*$, lo hace entrando en un loop infinito.
 
   Dem.
